@@ -11,9 +11,11 @@ class EmployeesController < ApplicationController
     def show
         # GET /api/employees/id
         set_employee
+        @project_items = @employee.project_items
         render json: {
-            data: @employee.as_json()
-        }
+            data: @employee.as_json(),
+            project: @project_items.as_json()
+        }, status: :ok
 
         # handle not being able to find employees
     end

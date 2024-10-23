@@ -3,11 +3,13 @@ import { useUpdateEmployee, useEmployee } from "./hooks/useEmployee";
 import { defaultEmployeeForm, EmployeeFormRequest, EmployeeFormTypes } from "./types/Employee";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Projects } from "../../types/Projects";
 
 export const EmployeeUpdate: React.FC = () => {
     const { employeeId } = useParams() as {employeeId: string}
     const {data: employeeRaw, error, isLoading} = useEmployee(employeeId)
     const [formData, setFormData] = useState<EmployeeFormTypes>(defaultEmployeeForm);
+    const [projectsData, setProjectsData] = useState<Array<Projects>>([]);
     const [isEditing, setIsEditing] = useState(false);
     const employeeCreateRequestData: EmployeeFormRequest = { employee: formData}
     const navigate = useNavigate();
@@ -18,7 +20,9 @@ export const EmployeeUpdate: React.FC = () => {
         if (!employeeRaw?.data) return;
 
         const employeeData = employeeRaw.data;
+        const employeeProjects = employeeRaw.project;
         setFormData(employeeData);
+        setProjectsData(employeeProjects)
     }, [employeeRaw])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -62,7 +66,7 @@ export const EmployeeUpdate: React.FC = () => {
                     <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 mb-4 sm:grid-cols-3 sm:gap-6 sm:mb-5">
                         <div className="w-full">
-                            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                            <label htmlFor="first_name" className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">First Name</label>
                             <input
                                 type="text"
                                 name="first_name"
@@ -76,7 +80,7 @@ export const EmployeeUpdate: React.FC = () => {
                             />
                         </div>
                         <div className="w-full">
-                            <label htmlFor="middle_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name</label>
+                            <label htmlFor="middle_name" className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Middle Name</label>
                             <input
                                 type="text"
                                 name="middle_name"
@@ -90,7 +94,7 @@ export const EmployeeUpdate: React.FC = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                            <label htmlFor="last_name" className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Last Name</label>
                             <input
                                 type="text"
                                 name="last_name"
@@ -104,7 +108,7 @@ export const EmployeeUpdate: React.FC = () => {
                             />
                         </div>
                         <div className="sm:col-span-3">
-                            <label htmlFor="email" className="block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white">Email</label>
+                            <label htmlFor="email" className="block mb-2 text-sm text-left font-bold text-gray-900 dark:text-white">Email</label>
                             <input
                                 type="text"
                                 name="email"
@@ -118,7 +122,7 @@ export const EmployeeUpdate: React.FC = () => {
                             />
                         </div> 
                         <div className="sm:col-span-3">
-                            <label htmlFor="job_title" className="block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white">Job Title</label>
+                            <label htmlFor="job_title" className="block mb-2 text-sm text-left font-bold text-gray-900 dark:text-white">Job Title</label>
                             <input
                                 type="text"
                                 name="job_title"
@@ -132,19 +136,29 @@ export const EmployeeUpdate: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div className="flex items-center space-x-4">
+
+                    <div>
+                        <h2 className="block mb-2 text-sm text-left font-bold text-gray-900 dark:text-white">Projects</h2>
+                        {
+                            projectsData.map((project: Projects, index: number)=>(
+                                <p key={index} className="block ml-4 mb-2 text-sm text-left text-gray-900 dark:text-white">{project.name}</p>
+                            ))
+                        }
+                    </div>
+
+                    <div className="flex items-center space-x-4 mt-5">
                         
                         { isEditing ?
                             <button
                                 type="submit"
-                                className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                className="text-white bg-green-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
                                 Update
                             </button>
                         :
                             <button
                                 type="submit"
-                                className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                className="text-white bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                 onClick={toggleEdit}
                             >
                                 Edit
@@ -154,7 +168,7 @@ export const EmployeeUpdate: React.FC = () => {
                         
                         <button
                             type="button"
-                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                             onClick={handleCancel}
                         >
                             Cancel
