@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  scope '/api' do
+    resources :employees
+    resources :companies
+
+    # /projects routes
+    resources :project_items, path: 'projects', only: %i[index]
+    get 'projects/:id', to: 'project_items_employees#show_employees'
+    # get '/projects', to: 'project_items#index'
+  end
+
+  resources :posts
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -7,4 +19,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  get '*path', to: 'static#frontend'
+
+  root "static#frontend"
 end
