@@ -13,12 +13,12 @@ const TableRows: React.FC<TableRowsProps> = ({employees}) => {
     }
 
     const mutation = useDeleteEmployee();
-
+    // explicit var names
     const handleDelete = (employeeId: string) => {
         mutation.mutate(employeeId)
     }
     
-    return(
+    return( // use unique key
         <>
         { employees.map((employee: Employee, index: number)=>{
             return(

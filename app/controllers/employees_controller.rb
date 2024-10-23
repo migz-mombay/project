@@ -14,7 +14,7 @@ class EmployeesController < ApplicationController
         @project_items = @employee.project_items
         render json: {
             data: @employee.as_json(),
-            project: @project_items.as_json()
+            project: @project_items.as_json() #look at json specs
         }, status: :ok
 
         # handle not being able to find employees

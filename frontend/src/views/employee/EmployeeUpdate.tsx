@@ -147,7 +147,7 @@ export const EmployeeUpdate: React.FC = () => {
                     </div>
 
                     <div className="flex items-center space-x-4 mt-5">
-                        
+                        {/*  avoid ternary  put ternary text */}
                         { isEditing ?
                             <button
                                 type="submit"

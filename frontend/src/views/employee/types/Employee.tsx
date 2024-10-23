@@ -14,7 +14,7 @@ export type EmployeeFormRequest = {
 };
 
 export const defaultEmployeeForm = {
-    company_id: 'ba359df3-f5ac-40f7-a4c0-666ffcdc73b1',
+    company_id: '001d5c6c-de1c-4746-bf76-06ed2297041e',
     first_name: '',
     middle_name: '',
     last_name: '',

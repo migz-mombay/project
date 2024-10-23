@@ -9,9 +9,9 @@ class ProjectItemsEmployeesController < ApplicationController
     end
 
     private
-        def set_project_item
-            @project_item = ProjectItem.find(params[:id])
-        end
+    def set_project_item
+        @project_item = ProjectItem.find(params[:id])
+    end
 
 end
 
